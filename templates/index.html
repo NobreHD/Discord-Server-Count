@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Count</title>
+    <script src="https://kit.fontawesome.com/351d256a1e.js" crossorigin="anonymous"></script>
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        var server_count = -1;
+        var nitro = false;
+        if (params.has('server_count') && params.has('nitro')){
+            server_count = parseInt(params.get('server_count'));
+            nitro = params.get('nitro') == 'True';
+        }
+    </script>
+    <style>
+        body{
+            background-color: #2c2f33;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1{
+            font-size: 40px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+        }
+
+        #container{
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #discord_button{
+            text-decoration: none;
+            color: #fff;
+            background-color: #7289da;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Discord Server Count</h1>
+        <div id="amount"></div>
+        <p>Easily get the number of servers you are in.</p>
+        <div id="button">
+            <a id="discord_button" href="https://discord.com/api/oauth2/authorize?client_id={{ client_id }}&redirect_uri={{ redirect_url }}&response_type=code&scope=identify%20guilds"><i class="fa-brands fa-discord"></i> Log into Discord</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/gh/kimmobrunfeldt/progressbar.js@1.0.1/dist/progressbar.min.js"></script>
+    <script>
+        $(document).ready(()=>{
+            if(server_count > -1){
+                $('#button').css('display', 'none');
+                $('#amount').css('margin', '20px');
+                var bar = new ProgressBar.SemiCircle("#amount", {
+                    strokeWidth: 6,
+                    color: '#22bb33',
+                    trailColor: '#eee',
+                    trailWidth: 1,
+                    easing: 'easeInOut',
+                    duration: 1400,
+                    text: {
+                        value: '',
+                        alignToBottom: false
+                    },
+                    from: {color: '#22bb33'},
+                    to: {color: '#bb2124'},
+                    step: (state, bar) => {
+                        bar.setText(Math.round(bar.value() * (nitro?200:100)) + ' servers');
+                    }
+                });
+
+                bar.animate(server_count / (nitro?200:100));
+            }
+        });
+    </script>
+</body>
+</html>
