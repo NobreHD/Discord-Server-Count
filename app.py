@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_file
 from dotenv import load_dotenv
 import requests, os, urllib.parse
 
@@ -51,3 +51,7 @@ def auth():
     server_count = get_server_count(header)
     nitro = is_user_nitro(header)
     return redirect(f"/?server_count={server_count}&nitro={nitro}")
+
+@app.route('/icon.png')
+def favicon():
+    return send_file('icon.png', mimetype='image/png')

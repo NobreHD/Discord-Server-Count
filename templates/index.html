@@ -4,7 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Server Count</title>
+    <title>Discord Server Count</title>
+    <link rel="icon" type="image/png" href="/icon.png">
+    <meta property="og:title" content="Discord Server Counter">
+    <meta property="og:description" content="Easily get the number of servers you are in.">
+    <meta property="og:url" content="https://server-count.nobrehd.pt">
+    <meta property="og:image" content="https://server-count.nobrehd.pt/icon.png">
     <script src="https://kit.fontawesome.com/351d256a1e.js" crossorigin="anonymous"></script>
     <script>
         const params = new URLSearchParams(window.location.search);
@@ -76,19 +81,31 @@
                     trailColor: '#eee',
                     trailWidth: 1,
                     easing: 'easeInOut',
-                    duration: 1400,
+                    duration: 800,
                     text: {
                         value: '',
                         alignToBottom: false
                     },
-                    from: {color: '#22bb33'},
-                    to: {color: '#bb2124'},
                     step: (state, bar) => {
-                        bar.setText(Math.round(bar.value() * (nitro?200:100)) + ' servers');
+                        var servers = Math.round(bar.value() * (nitro?200:100));
+                        bar.setText(servers + ' servers');
+                        if (servers <= 50){
+                            bar.path.setAttribute('stroke', '#22bb33');
+                            bar.text.style.color = '#22bb33';
+                        }else if (servers <= 75){
+                            bar.path.setAttribute('stroke', '#eed202'); 
+                            bar.text.style.color = '#eed202';
+                        }else if (servers <= 100){
+                            bar.path.setAttribute('stroke', '#f32013');
+                            bar.text.style.color = '#f32013';
+                        }else if (servers <= 200){
+                            bar.path.setAttribute('stroke', '#f47fff');
+                            bar.text.style.color = '#f47fff';
+                        }
                     }
                 });
 
-                bar.animate(server_count / (nitro?200:100));
+                bar.animate(server_count / (nitro?200:100), {duration: server_count * 10});
             }
         });
     </script>
