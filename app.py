@@ -52,4 +52,4 @@ def auth():
     nitro = is_user_nitro(header)
     return redirect(f"/?server_count={server_count}&nitro={nitro}")
 
-app.run(host='0.0.0.0', port=8080)
+app.run(host='0.0.0.0', port=80)
