@@ -52,6 +52,6 @@ def auth():
     nitro = is_user_nitro(header)
     return redirect(f"/?server_count={server_count}&nitro={nitro}")
 
-@app.route('/icon.png')
-def favicon():
-    return send_file('icon.png', mimetype='image/png')
+@app.route('/static/<path:path>')
+def favicon(path):
+    return send_file(f"static/{path}")
