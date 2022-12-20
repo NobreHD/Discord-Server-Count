@@ -57,6 +57,18 @@
             align-items: center;
             justify-content: center;
         }
+
+        #discord_button:hover{
+            background-color: #5f73bc;
+        }
+
+        #footer{
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 10px;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +79,10 @@
         <div id="button">
             <a id="discord_button" href="https://discord.com/api/oauth2/authorize?client_id={{ client_id }}&redirect_uri={{ redirect_url }}&response_type=code&scope=identify%20guilds"><i class="fa-brands fa-discord"></i> Log into Discord</a>
         </div>
+    </div>
+    <div id="footer">
+        <p>Created by <a href="https://github.com/NobreHD">NobreHD</a></p>
+        <p>Source code available on <a href="https://github.com/NobreHD/Discord-Server-Count"> GitHub</a></p>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.2.min.js" integrity="sha256-2krYZKh//PcchRtd+H+VyyQoZ/e3EcrkxhM8ycwASPA=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/kimmobrunfeldt/progressbar.js@1.0.1/dist/progressbar.min.js"></script>
