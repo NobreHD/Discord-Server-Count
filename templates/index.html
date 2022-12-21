@@ -147,6 +147,10 @@
                         }else if (servers <= 200){
                             bar.path.setAttribute('stroke', '#f47fff');
                             bar.text.style.color = '#f47fff';
+                        }else{
+                            color = '#'+Math.floor(Math.random()*16777215).toString(16);
+                            bar.path.setAttribute('stroke', color);
+                            bar.text.style.color = color;
                         }
                     }
                 });
