@@ -11,6 +11,16 @@ REDIRECT_URI = os.getenv('REDIRECT_URI')
 
 app = Flask(__name__)
 
+def count():
+    with open("count.txt", "r") as f:
+        count = int(f.read())
+        return count
+
+def add():
+    with open("count.txt", "w") as f:
+        count = count() + 1
+        f.write(str(count))
+
 def get_token(code):
     data = {
         'client_id': CLIENT_ID,
@@ -35,13 +45,9 @@ def get_server_count(header):
     response = requests.get("https://discord.com/api/users/@me/guilds", headers=header)
     return len(response.json())    
 
-def is_user_nitro(header):
-    response = requests.get("https://discord.com/api/users/@me", headers=header)
-    return response.json()['premium_type'] == 2
-
 @app.route('/')
 def index():
-    return render_template("index.html", client_id = CLIENT_ID, redirect_url = urllib.parse.quote_plus(REDIRECT_URI + "/auth"))
+    return render_template("index.html", client_id = CLIENT_ID, redirect_url = urllib.parse.quote_plus(REDIRECT_URI + "/auth"), count = count())
 
 @app.route('/auth')
 def auth():
@@ -49,8 +55,11 @@ def auth():
     token = get_token(code)
     header = set_header(token['access_token'], token['token_type'])
     server_count = get_server_count(header)
-    nitro = is_user_nitro(header)
-    return redirect(f"/?server_count={server_count}&nitro={nitro}")
+    user_info = requests.get("https://discord.com/api/users/@me", headers=header).json()
+    nitro = user_info['premium_type'] == 2
+    name = urllib.parse.quote(user_info['username'] + "#" + user_info['discriminator'])
+    add()
+    return redirect(f"/?server_count={server_count}&nitro={nitro}&user={name}")
 
 @app.route('/static/<path:path>')
 def favicon(path):
