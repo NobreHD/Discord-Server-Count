@@ -8,17 +8,21 @@ CLIENT_ID = os.getenv('CLIENT_ID')
 CLIENT_SECRET = os.getenv('CLIENT_SECRET')
 REDIRECT_URI = os.getenv('REDIRECT_URI')
 
+count = 0
 
 app = Flask(__name__)
 
-def count():
-    with open("count.txt", "r") as f:
-        count = int(f.read())
-        return count
+def get_count():
+    global count
+    if count == 0:
+        with open("count.txt", "r") as f:
+            count = int(f.read())
+            return count
 
 def add():
+    global count
+    count-=-1
     with open("count.txt", "w") as f:
-        count = count() + 1
         f.write(str(count))
 
 def get_token(code):
@@ -47,7 +51,7 @@ def get_server_count(header):
 
 @app.route('/')
 def index():
-    return render_template("index.html", client_id = CLIENT_ID, redirect_url = urllib.parse.quote_plus(REDIRECT_URI + "/auth"), count = count())
+    return render_template("index.html", client_id = CLIENT_ID, redirect_url = urllib.parse.quote_plus(REDIRECT_URI + "/auth"), count = get_count())
 
 @app.route('/auth')
 def auth():
