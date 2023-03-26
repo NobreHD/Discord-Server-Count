@@ -18,6 +18,8 @@ def get_count():
         with open("count.txt", "r") as f:
             count = int(f.read())
             return count
+    else:
+        return count
 
 def add():
     global count
