@@ -73,4 +73,4 @@ def favicon(path):
 
 @app.route('/robots.txt')
 def robots():
-    return "User-Agent: *\nAllow: /"
+    return send_file("robots.txt")
