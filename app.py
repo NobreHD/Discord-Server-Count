@@ -70,3 +70,7 @@ def auth():
 @app.route('/static/<path:path>')
 def favicon(path):
     return send_file(f"static/{path}")
+
+@app.route('/robots.txt')
+def robots():
+    return "User-Agent: *\nAllow: /"
